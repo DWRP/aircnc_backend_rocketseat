@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require( 'mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const routes = require('./routes');
 
@@ -9,7 +10,7 @@ const app = express();
 
 DB_USER = process.env.DB_USER;
 DB_PASS = process.env.DB_PASS;
-DB_NAME = process.env.DB_USER;
+DB_NAME = process.env.DB_NAME;
 DB_PATH = process.env.DB_PATH;
 DB_RULES = process.env.DB_RULES;
 
@@ -20,9 +21,9 @@ mongoose.connect(DB_URL,{
     useUnifiedTopology:true,
 });
 
-
+app.use(cors({origin:'*'}));
 app.use(express.json());
-app.use(cors());
+app.use('/files',express.static(path.resolve(__dirname,'..','uploads')));
 app.use(routes);
 
 
